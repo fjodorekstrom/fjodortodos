@@ -2,14 +2,18 @@ $(document).ready(function(){
 	$("button").click(function(){
 		$.getJSON("http://localhost:9090/todo_items.json",function(result){
 			$.each(result, function(i, field){
-				   console.log(' name=' + key + ' value=' + JSON.stringify(field[name]));
-
-				$('.todo').append('<p>' + JSON.stringify(field) + '</p>');
-				
+				console.log(field["name"]);
+				console.log(field["description"]);				
 			});
 		});
 	});
 
+	var getTodos = function(url){
+		$.getJSON(url, function(result){
+			return result;
+		});
+	}
+	
 	var Todo = Backbone.Model.extend({
 		defaults: {
 			name: "Todo default",
@@ -37,13 +41,13 @@ $(document).ready(function(){
 		});
 	}
 
-	var todos = new TodoList({
-		var res = fetchJSON("http://localhost:9090/todo_items.json");
+	var todos = new TodoList([
+		$.getJSON("http://localhost:9090/todo_items.json",function(result){
 			$.each(result, function(i, field){
-				new Todo({ name: field[name], description: field[description]});
+				new Todo({ name: field["name"], description: field["description"]});
 			});
-		});	
-	});
+		})
+	]);
 
 	var TodoView = Backbone.View.extend({
 		tagName: 'li',
