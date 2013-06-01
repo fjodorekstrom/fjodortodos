@@ -3,7 +3,8 @@ $(document).ready(function(){
 		$.getJSON("http://localhost:9090/todo_items.json",function(result){
 			$.each(result, function(i, field){
 				console.log(field["name"]);
-				console.log(field["description"]);				
+				console.log(field["description"]);
+				console.log(" ");				
 			});
 		});
 	});
