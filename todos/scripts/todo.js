@@ -34,14 +34,14 @@ $(document).ready(function(){
 
 
 	$("button").click(function(){
-		console.log(getName(getTodo(0)));
-		console.log(getDescription(getTodo(0)));
-		//TODO: fix validation and dynamic creation of todos
-		if(getObjectArray.length >= todos.length){
-			todos.push(makeTodo(0));
+		todos = new TodoList([]);
+		for(var i = 0; i < jqxhr.responseJSON.length; i++){
+			if(jqxhr.responseJSON.length > todos.length){
+				todos.push(makeTodo(i));
+			}
 		}
+		console.log(todos.length);
 		new App();
-
 	});
 
 	var makeTodo = function(todoIndex){
