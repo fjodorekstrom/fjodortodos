@@ -14,10 +14,14 @@ $(document).ready(function(){
 	});
 
 	var getTodo = function(objectIndex){
-		var objectArray = jqxhr.done(); 
-		objectArray = objectArray.responseJSON;
+		var objectArray = getObjectArray();
 		var selectedObject = objectArray[objectIndex];
 		return selectedObject;			
+	}
+
+	var getObjectArray = function(){
+		var objectArray = jqxhr.done(); 
+		return objectArray.responseJSON;	
 	}
 
 	var getName = function(jsonObj){
@@ -30,13 +34,22 @@ $(document).ready(function(){
 
 
 	$("button").click(function(){
-		var obj1 = getTodo(0);
-		console.log(getName(obj1));
-		console.log(getDescription(obj1));
-		var obj2 = getTodo(1);
-		console.log(getName(obj2));		
-		console.log(getDescription(obj2));
+		console.log(getName(getTodo(0)));
+		console.log(getDescription(getTodo(0)));
+		//TODO: fix validation and dynamic creation of todos
+		if(getObjectArray.length >= todos.length){
+			todos.push(makeTodo(0));
+		}
+		new App();
+
 	});
+
+	var makeTodo = function(todoIndex){
+		var namn = getName(getTodo(todoIndex));
+		var descr = getDescription(getTodo(todoIndex));
+		var tempTodo = new Todo({name: namn, description: descr});
+		return tempTodo;	
+	}
 
 
 	var Todo = Backbone.Model.extend({
@@ -51,12 +64,6 @@ $(document).ready(function(){
 		}
 
 	});
-
-	var getTodos = function(url){
-		$.getJSON(url, function(result){
-			return result;
-		});
-	}
 	
 	var Todo = Backbone.Model.extend({
 		defaults: {
@@ -79,11 +86,7 @@ $(document).ready(function(){
 		}
 	});
 
-	var todos = new TodoList([
-		new Todo({ name: getName(getTodo(0)), description: getDescription(getTodo(0))}),
-		new Todo({ name: getName(getTodo(1)), description: getDescription(getTodo(1))}),
-
-		]);
+	var todos = new TodoList([]);
 
 	var TodoView = Backbone.View.extend({
 		tagName: 'li',
