@@ -33,7 +33,7 @@ $(document).ready(function(){
 	}
 
 
-	$("button").click(function(){
+	$("#btn").click(function(){
 		todos = new TodoList([]);
 		for(var i = 0; i < jqxhr.responseJSON.length; i++){
 			if(jqxhr.responseJSON.length > todos.length){
@@ -41,6 +41,22 @@ $(document).ready(function(){
 			}
 		}
 		new App();
+	});
+
+	$("#btn-createTodo").click(function(){
+		var obj = {name: $("#name").val(), description: $("#description").val()};
+		console.log(obj);
+		var dataString = JSON.stringify(obj);
+		$.ajax({
+			type: "POST",
+			url: "http://localhost:9090/todo_items",
+			dataType: 'json',
+			data: dataString,
+			success: function(){
+				console.log("post success");
+			}
+
+		});
 	});
 
 	var makeTodo = function(todoIndex){
