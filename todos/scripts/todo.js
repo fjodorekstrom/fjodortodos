@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-	var jqxhr = $.getJSON("http://localhost:9090/todo_items.json", function(result){
+	var jqxhr = $.getJSON("http://localhost:80/api/todo_items.json", function(result){
 		console.log("successfully sent request..");
 	}).done(function(json, objectIndex){
 		console.log("fetched " + JSON.stringify(json[objectIndex]));
@@ -47,15 +47,15 @@ $(document).ready(function(){
 		var obj = {name: $("#name").val(), description: $("#description").val()};
 		console.log(obj);
 		var dataString = JSON.stringify(obj);
+		console.log(dataString);
 		$.ajax({
 			type: "POST",
-			url: "http://localhost:9090/todo_items",
+			url: "http://localhost:80/api/todo_items",
 			dataType: 'json',
 			data: dataString,
 			success: function(){
-				console.log("post success");
+				console.log("post success ");
 			}
-
 		});
 	});
 
@@ -70,19 +70,6 @@ $(document).ready(function(){
 	var Todo = Backbone.Model.extend({
 		defaults: {
 			name: "Default title",
-			description: "this is a default description",
-			checked: false
-		},
-
-		toggle: function(){
-			this.set('checked', !this.get('checked'));
-		}
-
-	});
-	
-	var Todo = Backbone.Model.extend({
-		defaults: {
-			name: "Todo default",
 			description: "this is a default description",
 			checked: false
 		},
@@ -115,7 +102,7 @@ $(document).ready(function(){
 		},
 
 		render: function(){
-			this.$el.html('<input type="checkbox" value="1" name="' + this.model.get('name') + '" /> ' + this.model.get('name') + '<span>$' + this.model.get('description') + '</span>');
+			this.$el.html('<input type="checkbox" value="1" name="' + this.model.get('name') + '" /> ' + this.model.get('name') + '<span>' + this.model.get('description') + '</span>');
 			this.$('input').prop('checked', this.model.get('checked'));
 			
 			return this;
