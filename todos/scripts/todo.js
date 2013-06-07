@@ -40,7 +40,6 @@ $(document).ready(function(){
 				todos.push(makeTodo(i));
 			}
 		}
-		console.log(todos.length);
 		new App();
 	});
 
@@ -117,6 +116,7 @@ $(document).ready(function(){
 		initialize: function(){
 			_.bindAll(this);
 			this.list = $('#todos');
+			this.list.empty();
 			this.listenTo(todos, 'change', this.render);
 			todos.each(function(todo){
 				var view = new TodoView({ model: todo});
@@ -128,7 +128,6 @@ $(document).ready(function(){
 			return this;
 		}
 	});
-
 	new App();
 });
 
