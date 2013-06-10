@@ -7,15 +7,16 @@ window.TodoView = Backbone.View.extend({
 });
 
 window.FormView = Backbone.View.extend({
-	el: $("#getTodos"),
+	el: $("#main"),
 	events: {
-		"submit": "get_todos"
+		"click #getTodos": "get_todos",
+		"submit #makeTodo": "make_todo"
 	},
 
 	get_todos: function(e) {
 		e.preventDefault();
 		var self = this;
-		$.getJSON("http://localhost/api/todo_items").success(function(json){
+		$.getJSON("http://localhost/api/todo_items").done(function(json){
 			console.log(json);
 			$("#todos li").fadeOut();
 				for (var i  in json) {
@@ -26,4 +27,14 @@ window.FormView = Backbone.View.extend({
 				}
 		});		
 	},
+
+	make_todo: function(e) {
+		e.preventDefault();
+		var self = this;
+		var todo = new Todo({ name: $("#name").val, description: $("description").val() });
+		console.log(todo);
+		$.post("http://localhost/api/todo_items", { "todo_item": [todo] }).done(function(data) {
+  			alert("Data Loaded: " + data);
+		});
+	}
 });

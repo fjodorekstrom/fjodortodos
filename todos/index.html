@@ -10,14 +10,20 @@
 		<script src="js/router.js"></script>		
 	</head>
 	<body>
+		<div id="main">
 			<h1>Todos - Organizing your life</h1>
-			<form id="getTodos">
+			<button id="getTodos">Get all Todos</button>
+			<form id="makeTodo">
 				<input id="name" placeholder="type your name here..."></input>
 				<input id="description" placeholder="description..."></input>
-				<input type="submit" id="submit_form_btn" value="GET TODOS"></input>
+				<input type="submit" id="submit_form_btn" value="CREATE TODOS"></input>
 			</form>
 			<ul id="todos">
-				<li id="todo_template"></li>	
+			<li id="todo_template">
+				<p>name</p>
+				<p>description</p>
+			</li>
 			</ul>
+		</div>
 	</body>
 </html>
