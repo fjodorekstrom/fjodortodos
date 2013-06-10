@@ -2,20 +2,22 @@
 <html>
 	<head>
 	    <title>Todos - Organizing your life</title>
-	    			    			    				<!-- JavaScript Includes -->
 		<script src="http://code.jquery.com/jquery-1.10.1.js"></script>
 		<script src="http://underscorejs.org/underscore.js"></script>
 		<script src="http://backbonejs.org/backbone.js"></script>
-		<script src="scripts/todo.js"></script>		
+		<script src="js/models.js"></script>	
+		<script src="js/views.js"></script>	
+		<script src="js/router.js"></script>		
 	</head>
 	<body>
-		<div id="main">
 			<h1>Todos - Organizing your life</h1>
-			<button id="btn">Get todos</button>	
-			<input id="name" placeholder="type your name here..."></input>
-			<input id="description" placeholder="description..."></input>
-			<button id="btn-createTodo">+</button>
-			<ul id="todos">No todos loaded</ul>
-		</div>
+			<form id="getTodos">
+				<input id="name" placeholder="type your name here..."></input>
+				<input id="description" placeholder="description..."></input>
+				<input type="submit" id="submit_form_btn" value="GET TODOS"></input>
+			</form>
+			<ul id="todos">
+				<li id="todo_template"></li>	
+			</ul>
 	</body>
 </html>
