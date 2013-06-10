@@ -1,40 +1,52 @@
-window.TodoView = Backbone.View.extend({
+var TodoView = Backbone.View.extend({
+	tagName: 'li',
+	todoTpl: _.template("an example template" ),
+	events: {
+		'click .toggle': 'toggleCompleted',
+		'dblclick label': 'edit',
+		'keypress .edit': 'updateOnEnter',
+		'blur .edit': 'close'
+	},
+
+	initialize: function() {
+		this.$el = $("#todo");
+	 	this.model.bind('change', _.bind(this.render, this));
+		//this.listenTo(todos, 'all', this.render);
+	},
+
 	render: function() {
-		var todo = _.template( $("#todo_template").html(), this.model.toJSON());
-		$("#todos").append(todo);
-		$("#t_" + this.model.get("name")).fadeIn();
+		this.$el.html(this.todoTpl(this.model.toJSON));
+		this.input = this.$(".edit");
+		return this;
+	},
+
+	edit: function() {
+
+	},
+
+	close: function() {
+
+	},
+
+	updateOnEnter: function() {
+
 	}
 });
 
-window.FormView = Backbone.View.extend({
-	el: $("#main"),
-	events: {
-		"click #getTodos": "get_todos",
-		"submit #makeTodo": "make_todo"
-	},
+var ListView = Backbone.View.extend({
+	render: function() {
+		var items = this.model.get('items');
+		_.each(items, function(item){
+			var itemView = new ItemView({model: item});
+			this.$el.append( itemView.render().el);
+		}, this);
+	}
+});
 
-	get_todos: function(e) {
-		e.preventDefault();
-		var self = this;
-		$.getJSON("http://localhost/api/todo_items").done(function(json){
-			console.log(json);
-			$("#todos li").fadeOut();
-				for (var i  in json) {
-					var todo = new Todo(json[i]);
-					var todoView = new TodoView({model: todo});
-					todoView.render();
-					console.log(json[i]);
-				}
-		});		
-	},
-
-	make_todo: function(e) {
-		e.preventDefault();
-		var self = this;
-		var todo = new Todo({ name: $("#name").val, description: $("description").val() });
-		console.log(todo);
-		$.post("http://localhost/api/todo_items", { "todo_item": [todo] }).done(function(data) {
-  			alert("Data Loaded: " + data);
-		});
+var ItemView = Backbone.View.extend({
+	events: {},
+	render: function() {
+		this.$el.html(this.model.toJSON());
+		return this;
 	}
 });
