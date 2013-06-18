@@ -68,6 +68,7 @@ app.TodoView = Backbone.View.extend({
 	},
 
 	clear: function() {
+		console.log("this models url: " + this.model.attributes.url);
 		var modelId = this.model.attributes.url.split("/");
 		var modelIndex = modelId[modelId.length - 1].split(".")[0];
 		console.log(modelIndex);
