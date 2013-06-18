@@ -28,10 +28,11 @@
 	<script type="text/template" id="item-template">
 		<div class="view">
 			<input class="toggle" type="checkbox" <%= completed ? 'checked' : '' %>>
-			<label><%- title %></label>
+			<label><%- name %></label>
+			<label><%- description %></label>
 			<button class="destroy"></button>
 		</div>
-		<input class="edit" value="<%- title %>">
+		<input class="edit" value="<%- name %>">
 	</script>
 
 	<script type="text/template" id="stats-template">

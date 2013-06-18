@@ -4,7 +4,7 @@ app.Todo = Backbone.Model.extend({
 	defaults: {
 		name: '',
 		description: '',
-		url: 'http://fjodortodos.herokuapp.com/todo_items',
+		url: 'api/todo_items',
 		completed: false
 	},
 

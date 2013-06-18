@@ -71,7 +71,7 @@ app.AppView = Backbone.View.extend({
 
 	newAttributes: function() {
 		return {
-			title: this.$input.val().trim(),
+			name: this.$input.val().trim(),
 			order: app.Todos.nextOrder(),
 			completed: false
 		};
