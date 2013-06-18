@@ -20,19 +20,11 @@ app.AppView = Backbone.View.extend({
 		this.listenTo(app.Todos, 'add', this.addOne);
 		this.listenTo(app.Todos, 'reset', this.addAll);
 
-		this.listenTo(app.Todos, 'add', this.filterOne);
+		this.listenTo(app.Todos, 'change:completed', this.filterOne);
 		this.listenTo(app.Todos, 'filter', this.filterAll);
 		this.listenTo(app.Todos, 'all', this.render);
-	},
 
-	addOne: function( todo ) {
-		var view = new app.TodoView({model: todo });
-		$('#todo-list').append(view.render().el);
-	},
-
-	addAll: function() {
-		this.$('#todo-list').html('');
-		app.Todos.each(this.addOne, this);
+		app.Todos.fetch();
 	},
 
 	render: function() {
@@ -59,6 +51,16 @@ app.AppView = Backbone.View.extend({
 		this.allCheckbox.checked = !remaining;
 	},
 
+	addOne: function( todo ) {
+		var view = new app.TodoView({model: todo });
+		$('#todo-list').append(view.render().el);
+	},
+
+	addAll: function() {
+		this.$('#todo-list').html('');
+		app.Todos.each(this.addOne, this);
+	},
+
 	filterOne: function(todo) {
 		todo.trigger('visible');
 	},
@@ -73,6 +75,15 @@ app.AppView = Backbone.View.extend({
 			order: app.Todos.nextOrder(),
 			completed: false
 		};
+	},
+
+	createOnEnter: function( event ) {
+		if ( event.which !== ENTER_KEY || !this.$input.val().trim() ) {
+			return;
+		}
+
+		app.Todos.create( this.newAttributes() );
+		this.$input.val('');
 	},
 
 	clearCompleted: function() {

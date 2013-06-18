@@ -2,7 +2,9 @@ var app = app || {}
 
 app.Todo = Backbone.Model.extend({
 	defaults: {
-		title: '',
+		name: '',
+		description: '',
+		url: 'http://fjodortodos.herokuapp.com/todo_items',
 		completed: false
 	},
 
