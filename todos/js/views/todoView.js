@@ -68,6 +68,9 @@ app.TodoView = Backbone.View.extend({
 	},
 
 	clear: function() {
+		Backbone.sync("delete", this.model, {url: "api/todo_items/" + this.model.attributes.url.substring(this.model.attributes.url.length - 6, this.model.attributes.url.length - 5)});
+		//this.model.sync("delete");
 		this.model.destroy();
+		console.log("This models url: " + this.model.attributes.url);
 	}
 });
