@@ -110,7 +110,8 @@ body {
 }
 
 #new-todo,
-.edit {
+.edit,
+#new-todo-descr {
 	position: relative;
 	margin: 0;
 	width: 100%;
@@ -135,7 +136,8 @@ body {
 	font-smoothing: antialiased;
 }
 
-#new-todo {
+#new-todo,
+#new-todo-descr {
 	padding: 16px 16px 16px 60px;
 	border: none;
 	background: rgba(0, 0, 0, 0.02);

@@ -72,19 +72,21 @@ app.AppView = Backbone.View.extend({
 
 	newAttributes: function() {
 		return {
-			name: this.$input.val().trim(),
+			name: this.$("#new-todo").val().trim(),
+			description: this.$("#new-todo-descr").val().trim(),
 			order: app.Todos.nextOrder(),
 			completed: false
 		};
 	},
 
 	createOnEnter: function( event ) {
-		if ( event.which !== ENTER_KEY || !this.$input.val().trim() ) {
+		if ( event.which !== ENTER_KEY || !this.$("#new-todo").val().trim() || !this.$("#new-todo-descr").val().trim() ) {
 			return;
 		}
 
 		app.Todos.create( this.newAttributes() );
-		this.$input.val('');
+		this.$("#new-todo").val('');
+		this.$("#new-todo-descr").val('');
 	},
 
 	clearCompleted: function() {

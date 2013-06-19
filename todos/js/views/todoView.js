@@ -10,7 +10,7 @@ app.TodoView = Backbone.View.extend({
 		'keypress .edit': 'updateOnEnter',
 		'blur .edit': 'close',
 		'click .toggle': 'togglecompleted',
-		'click .destroy': 'clear'
+		'click .destroy': 'deleteFromDb'
 	},
 
 	initialize: function() {
@@ -51,9 +51,11 @@ app.TodoView = Backbone.View.extend({
 	},
 
 	close: function() {
-		var value = this.$input.val().trim();
+		//var value = this.$input.val().trim();
+		var value1 = this.$("#new-todo").val().trim();
+		var value2 = this.$("#new-todo-descr").val().trim();
 		if( value ) {
-			this.model.save({ name: value, description: value });
+			this.model.save({ name: value, description: value2 });
 		} else {
 			this.clear();
 		}
@@ -68,10 +70,14 @@ app.TodoView = Backbone.View.extend({
 	},
 
 	clear: function() {
+		this.model.destroy();
+	},
+
+	deleteFromDb: function() {
 		var modelId = this.model.attributes.url.split("/");
 		var modelIndex = modelId[modelId.length - 1].split(".")[0];
 		console.log(modelIndex);
-		Backbone.sync("delete", this.model, {url: "api/todo_items/" + modelIndex});
-		this.model.destroy();
+		Backbone.sync("delete", this.model, {url: "api/todo_items/" + modelIndex});	
+		this.clear();
 	}
 });
