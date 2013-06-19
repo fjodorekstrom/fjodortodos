@@ -7,6 +7,7 @@ app.AppView = Backbone.View.extend({
 
 	events: {
 		'keypress #new-todo': 'createOnEnter',
+		'keypress #new-todo-descr': 'createOnEnter',
 		'click #clear-completed': 'clearCompleted',
 		'click #toggle-all': 'toggleAllComplete'
 	},
@@ -54,6 +55,7 @@ app.AppView = Backbone.View.extend({
 	addOne: function( todo ) {
 		var view = new app.TodoView({model: todo });
 		$('#todo-list').append(view.render().el);
+		view.render();
 
 	},
 

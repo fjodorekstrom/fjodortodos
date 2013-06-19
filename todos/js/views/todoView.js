@@ -55,7 +55,7 @@ app.TodoView = Backbone.View.extend({
 		var value1 = this.$("#new-todo").val().trim();
 		var value2 = this.$("#new-todo-descr").val().trim();
 		if( value ) {
-			this.model.save({ name: value, description: value2 });
+			this.model.save({ name: value1, description: value2 });
 		} else {
 			this.clear();
 		}
