@@ -15,6 +15,7 @@ app.TodoView = Backbone.View.extend({
 
 	initialize: function() {
 		this.listenTo(this.model, 'change', this.render);
+		this.listenTo(this.model, 'reset', this.render);
 		this.listenTo(this.model, 'destroy', this.remove);
 		this.listenTo(this.model, 'visible', this.toggleVisible);
 	},
@@ -54,8 +55,12 @@ app.TodoView = Backbone.View.extend({
 		//var value = this.$input.val().trim();
 		var value1 = this.$("#new-todo").val().trim();
 		var value2 = this.$("#new-todo-descr").val().trim();
-		if( value ) {
-			this.model.save({ name: value1, description: value2 });
+		if( value1 && value2 ) {
+			this.model.save({ name: value1, description: value2 }, {
+				success: function() {
+					console.log("successfully saved " + this.model);
+				}
+			});
 		} else {
 			this.clear();
 		}
@@ -76,8 +81,8 @@ app.TodoView = Backbone.View.extend({
 	deleteFromDb: function() {
 		var modelId = this.model.attributes.url.split("/");
 		var modelIndex = modelId[modelId.length - 1].split(".")[0];
-		console.log(modelIndex);
-		Backbone.sync("delete", this.model, {url: "api/todo_items/" + modelIndex});	
-		this.clear();
+		console.log("Removing todo " + modelIndex);
+		Backbone.sync("delete", this.model, {url: "api/todo_items/" + modelIndex});
+		this.clear();	
 	}
 });

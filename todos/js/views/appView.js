@@ -18,14 +18,21 @@ app.AppView = Backbone.View.extend({
 		this.$footer = this.$('#footer');
 		this.$main = this.$('#main');
 
+		_.bindAll(this, 'render');
+
 		this.listenTo(app.Todos, 'add', this.addOne);
 		this.listenTo(app.Todos, 'reset', this.addAll);
 
 		this.listenTo(app.Todos, 'change:completed', this.filterOne);
 		this.listenTo(app.Todos, 'filter', this.filterAll);
 		this.listenTo(app.Todos, 'all', this.render);
-
-		app.Todos.fetch();
+		this.listenTo(app.Todos, 'reset', this.render);
+		var self = this;
+		app.Todos.fetch({
+			success: function() {
+				self.render();
+			}
+		});
 	},
 
 	render: function() {
@@ -54,8 +61,7 @@ app.AppView = Backbone.View.extend({
 
 	addOne: function( todo ) {
 		var view = new app.TodoView({model: todo });
-		$('#todo-list').append(view.render().el);
-		view.render();
+		$('#todo-list').append(view.render().el);		
 
 	},
 
@@ -86,7 +92,13 @@ app.AppView = Backbone.View.extend({
 			return;
 		}
 
-		app.Todos.create( this.newAttributes() );
+		app.Todos.create( this.newAttributes());
+		app.Todos.reset().fetch({
+			success: function() {
+				console.log("successfully fetched all todos");
+			}
+		});
+		console.log("Creating new todo...");
 		this.$("#new-todo").val('');
 		this.$("#new-todo-descr").val('');
 	},
