@@ -13,12 +13,15 @@ app.AppView = Backbone.View.extend({
 	},
 
 	initialize: function() {
+
 		this.allCheckbox = this.$('#toggle-all')[0];
 		this.$input = this.$('#new-todo');
 		this.$footer = this.$('#footer');
 		this.$main = this.$('#main');
 
 		_.bindAll(this, 'render');
+
+		
 
 		this.listenTo(app.Todos, 'add', this.addOne);
 		this.listenTo(app.Todos, 'reset', this.addAll);
@@ -27,12 +30,8 @@ app.AppView = Backbone.View.extend({
 		this.listenTo(app.Todos, 'filter', this.filterAll);
 		this.listenTo(app.Todos, 'all', this.render);
 		this.listenTo(app.Todos, 'reset', this.render);
-		var self = this;
-		app.Todos.fetch({
-			success: function() {
-				self.render();
-			}
-		});
+		app.Todos.fetch({reset: true});
+		this.render();
 	},
 
 	render: function() {
@@ -60,6 +59,7 @@ app.AppView = Backbone.View.extend({
 	},
 
 	addOne: function( todo ) {
+		app.Todos.add(todo);
 		var view = new app.TodoView({model: todo });
 		$('#todo-list').append(view.render().el);		
 
@@ -91,10 +91,10 @@ app.AppView = Backbone.View.extend({
 		if ( event.which !== ENTER_KEY || !this.$("#new-todo").val().trim() || !this.$("#new-todo-descr").val().trim() ) {
 			return;
 		}
-
-		app.Todos.create( this.newAttributes());
+		var self = this;
+		app.Todos.create( this.newAttributes() );
 		app.Todos.reset().fetch({
-			success: function() {
+			done: function() {
 				console.log("successfully fetched all todos");
 			}
 		});

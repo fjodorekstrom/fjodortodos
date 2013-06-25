@@ -27,6 +27,7 @@ app.TodoView = Backbone.View.extend({
 		this.toggleVisible();
 
 		this.$input = this.$('.edit');
+		console.log(this.model.toJSON() );
 		return this;
 	},
 
@@ -53,8 +54,8 @@ app.TodoView = Backbone.View.extend({
 
 	close: function() {
 		//var value = this.$input.val().trim();
-		var value1 = this.$("#new-todo").val().trim();
-		var value2 = this.$("#new-todo-descr").val().trim();
+		var value1 = this.$("#new-todo").val();
+		var value2 = this.$("#new-todo-descr").val();
 		if( value1 && value2 ) {
 			this.model.save({ name: value1, description: value2 }, {
 				success: function() {

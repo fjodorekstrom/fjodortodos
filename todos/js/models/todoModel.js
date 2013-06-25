@@ -5,7 +5,8 @@ app.Todo = Backbone.Model.extend({
 		name: '',
 		description: '',
 		//url: 'api/todo_items',
-		completed: false
+		completed: false,
+		idAttribute: 'id'
 	},
 /**
 	methodUrl:  function(method){
